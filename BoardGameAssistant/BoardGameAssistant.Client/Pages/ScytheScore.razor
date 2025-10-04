@@ -1,0 +1,57 @@
+﻿@page "/scythe-score"
+@using System.ComponentModel.DataAnnotations
+@using BoardGameAssistant.Client.Model.Scythe
+
+<PageTitle>Scythe Score Calculator</PageTitle>
+
+<MudText Typo="Typo.h4" GutterBottom="true">Scythe – Výpočet skóre</MudText>
+
+<MudTable Items="players" Hover="true">
+    <HeaderContent>
+        <MudTh>Hráč</MudTh>
+        <MudTh>Mince</MudTh>
+        <MudTh>Hvězdy</MudTh>
+        <MudTh>Území</MudTh>
+        <MudTh>Budovy na řece</MudTh>
+        <MudTh>Celkové skóre</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Hráč">@context.PlayerName</MudTd>
+        <MudTd DataLabel="Mince">
+            <MudNumericField @bind-Value="context.Coins" Min="0" />
+        </MudTd>
+        <MudTd DataLabel="Hvězdy">
+            <MudNumericField @bind-Value="context.Stars" Min="0" Max="6" />
+        </MudTd>
+        <MudTd DataLabel="Území">
+            <MudNumericField @bind-Value="context.Territories" Min="0" />
+        </MudTd>
+        <MudTd DataLabel="Budovy na řece">
+            <MudNumericField @bind-Value="context.BuildingsOnRiver" Min="0" Max="4" />
+        </MudTd>
+        <MudTd DataLabel="Celkové skóre">@CalculateScore(context)</MudTd>
+    </RowTemplate>
+</MudTable>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddPlayer">Přidat hráče</MudButton>
+
+@code {
+
+    private List<ScythePlayerScore> players = new()
+    {
+        new ScythePlayerScore { PlayerName = "Hráč 1" },
+        new ScythePlayerScore { PlayerName = "Hráč 2" }
+    };
+
+    private void AddPlayer()
+    {
+        players.Add(new ScythePlayerScore { PlayerName = $"Hráč {players.Count + 1}" });
+    }
+
+    private int CalculateScore(ScythePlayerScore player)
+    {
+        // Základní bodování Scythe (přizpůsobte podle pravidel a počtu hráčů)
+        // Příklad: 1 mince = 1 bod, 1 hvězda = 3 body, 1 území = 2 body, 1 budova na řece = 1 bod
+        return player.Coins + player.Stars * 3 + player.Territories * 2 + player.BuildingsOnRiver * 1;
+    }
+}

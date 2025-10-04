@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BoardGameAssistant/BoardGameAssistant.Client/BoardGameAssistant.Client.csproj" />
+  <Project Path="BoardGameAssistant/BoardGameAssistant/BoardGameAssistant.csproj" />
+</Solution>
