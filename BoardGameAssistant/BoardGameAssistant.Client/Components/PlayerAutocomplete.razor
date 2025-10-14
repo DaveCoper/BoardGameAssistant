@@ -1,0 +1,49 @@
+﻿@using BoardGameAssistant.Client.Dto
+@using BoardGameAssistant.Client.Services
+
+<MudAutocomplete @bind-Value="Player"
+				 SearchFunc="Search"
+				 Variant="this.Variant"
+				 Placeholder="Player name"
+				 ToStringFunc="(el) => el?.DisplayName"
+				 Strict=false
+				 Clearable="true" />
+
+@code {
+
+	private PlayerDto player = new PlayerDto { Id = Guid.Empty, DisplayName = string.Empty };
+
+	[Parameter]
+	public PlayerDto Player
+	{
+		get => player;
+		set
+		{
+			if (value != player)
+			{
+				player = value;
+				PlayerNameChanged.InvokeAsync(value);
+			}
+		}
+	}
+
+	[Parameter]
+	public EventCallback<PlayerDto> PlayerNameChanged { get; set; }
+
+	[Parameter]
+	public Variant Variant { get; set; } = Variant.Outlined;
+
+	[Inject]
+	public IPlayerNameProvider PlayerNameProvider { get; set; } = null!;
+
+	private async Task<IEnumerable<PlayerDto>> Search(string value, CancellationToken token)
+	{
+		var players = await PlayerNameProvider.GetPlayersAsync(
+			contains: value,
+			skip: 0,
+			take: 10,
+			cancellationToken: token);
+
+		return players;
+	}
+}

@@ -1,4 +1,5 @@
-﻿@page "/scythe-score"
+﻿@page "/scythe/{GameId:int}"
+
 @using System.ComponentModel.DataAnnotations
 @using BoardGameAssistant.Client.Model.Scythe
 
@@ -6,7 +7,7 @@
 
 <MudText Typo="Typo.h4" GutterBottom="true">Scythe – Výpočet skóre</MudText>
 
-<MudTable Items="players" Hover="true">
+<MudTable Items="scores" Hover="true">
     <HeaderContent>
         <MudTh>Hráč</MudTh>
         <MudTh>Mince</MudTh>
@@ -37,16 +38,10 @@
 
 @code {
 
-    private List<ScythePlayerScore> players = new()
-    {
-        new ScythePlayerScore { PlayerName = "Hráč 1" },
-        new ScythePlayerScore { PlayerName = "Hráč 2" }
-    };
+    [Parameter]
+	public int GameId { get; set; }
 
-    private void AddPlayer()
-    {
-        players.Add(new ScythePlayerScore { PlayerName = $"Hráč {players.Count + 1}" });
-    }
+	private List<ScythePlayerScore> scores = new List<ScythePlayerScore>();
 
     private int CalculateScore(ScythePlayerScore player)
     {
@@ -54,4 +49,10 @@
         // Příklad: 1 mince = 1 bod, 1 hvězda = 3 body, 1 území = 2 body, 1 budova na řece = 1 bod
         return player.Coins + player.Stars * 3 + player.Territories * 2 + player.BuildingsOnRiver * 1;
     }
+
+    private Task AddPlayer()
+    {
+        scores.Add(new ScythePlayerScore { PlayerName = $"Hráč {scores.Count + 1}" });
+        return Task.CompletedTask;
+	}
 }

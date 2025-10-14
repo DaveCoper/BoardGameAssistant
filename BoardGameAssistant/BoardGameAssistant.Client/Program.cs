@@ -1,3 +1,4 @@
+using BoardGameAssistant.Client.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 
@@ -8,5 +9,7 @@ builder.Services.AddMudServices();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthenticationStateDeserialization();
+
+builder.Services.AddScoped<IPlayerNameProvider, WasmPlayerNameProvider>();
 
 await builder.Build().RunAsync();
