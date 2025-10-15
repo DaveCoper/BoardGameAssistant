@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using System.Runtime.CompilerServices;
 
 namespace BoardGameAssistant.Client.Components
 {
@@ -23,6 +24,16 @@ namespace BoardGameAssistant.Client.Components
 
         [Parameter]
         public EventCallback<int> ValueChanged { get; set; }
+
+
+        [Parameter]
+        public Variant EditorVariant { get; set; } = Variant.Outlined;
+
+        [Parameter]
+        public Variant IconButtonVariant { get; set; } = Variant.Filled;
+
+        [Parameter]
+        public Color IconButtonColor { get; set; } = Color.Primary;
 
         [Inject]
         public IDialogService DialogService { get; set; } = null!;

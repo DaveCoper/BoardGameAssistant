@@ -1,4 +1,4 @@
 ﻿<MudStack Row>
-    <MudNumericField @bind-Value="Value" Immediate="true" Variant="Variant.Outlined" />
-    <MudIconButton Icon="@Icons.Material.Filled.Calculate" Color="Color.Primary" OnClick="ShowCalculator" />
+    <MudNumericField @bind-Value="Value" Variant="@EditorVariant" />
+    <MudIconButton Icon="@Icons.Material.Filled.Calculate" Variant="@IconButtonVariant" Color="@IconButtonColor" OnClick="ShowCalculator" />
 </MudStack>
