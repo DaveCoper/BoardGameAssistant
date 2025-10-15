@@ -1,0 +1,69 @@
+﻿@page "/scythe/new"
+
+@using System.ComponentModel.DataAnnotations
+@using BoardGameAssistant.Client.Services
+@using MudBlazor
+
+@inject NavigationManager Navigation
+@inject IScytheGameService ScytheGameService
+
+<PageTitle>New Scythe game</PageTitle>
+
+<MudPaper Class="pa-4" Elevation="1">
+    <EditForm Model="@Model" OnValidSubmit="SaveAsync">
+        <DataAnnotationsValidator />
+
+        <MudGrid>
+            <MudItem xs="12" sm="8">
+                <MudText Typo="Typo.h6">Create new Scythe game</MudText>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid Class="mt-4" Spacing="3">
+            <MudItem xs="12" sm="6">
+                <MudTextField For="@(() => Model.Name)"
+                              Label="Game name"
+                              RequiredError="Name is required"
+                              @bind-Value="Model.Name" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudDatePicker T="DateTime?"
+                               For="@(() => Model.PlayedAt)"
+                               Label="Played at"
+                               @bind-Date="Model.PlayedAt" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">
+                    Save
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </EditForm>
+</MudPaper>
+
+@code {
+
+    private class ScytheCreateModel
+    {
+        public string? Name { get; set; } = $"Scythe {DateTime.Now:dd:MM:yyyy}";
+
+        public DateTime? PlayedAt { get; set; } = DateTime.Now;
+    }
+
+    private ScytheCreateModel Model { get; set; } = new();
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            var game = await ScytheGameService.CreateGameAsync(Model.Name, Model.PlayedAt);            
+            Navigation.NavigateTo($"/scythe/{game.Id}");
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }
+}
