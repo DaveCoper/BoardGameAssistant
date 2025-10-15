@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BoardGameAssistant.ServiceContracts\BoardGameAssistant.ServiceContracts.csproj" />
+    <ProjectReference Include="..\BoardGameAssistant.ServiceContracts\BoardGameAssistant.ServiceContracts.csproj" />
   </ItemGroup>
 
 </Project>

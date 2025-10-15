@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="../../../../../../source/repos/BoardGameAssistant/BoardGameAssistant.ServiceContracts/BoardGameAssistant.ServiceContracts.csproj" Id="c8a381e0-d55e-4148-a2ec-e82257ea4eb4" />
-  <Project Path="../../../../../../source/repos/BoardGameAssistant/BoardGameAssistant/BoardGameAssistant.Client/BoardGameAssistant.Client.csproj" />
-  <Project Path="../../../../../../source/repos/BoardGameAssistant/BoardGameAssistant/BoardGameAssistant/BoardGameAssistant.csproj" />
+  <Project Path="BoardGameAssistant.ServiceContracts/BoardGameAssistant.ServiceContracts.csproj" Id="c8a381e0-d55e-4148-a2ec-e82257ea4eb4" />
+  <Project Path="BoardGameAssistant.Client/BoardGameAssistant.Client.csproj" />
+  <Project Path="BoardGameAssistant/BoardGameAssistant.csproj" />
 </Solution>
