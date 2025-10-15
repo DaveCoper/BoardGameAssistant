@@ -1,0 +1,39 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="calcInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+        <MudStack Row Spacing="1" Class="mt-2">
+            <MudButton OnClick="ClearCalc" Color="Color.Error" Variant="Variant.Filled" DropShadow=false>AC</MudButton>
+            <MudButton OnClick="() => AppendBarckets()" Variant="Variant.Filled" DropShadow=false>()</MudButton>
+            <MudButton OnClick="() => AppendCalc('%')" Variant="Variant.Filled" DropShadow=false>1</MudButton>
+            <MudButton OnClick="() => AppendCalc('/')" Variant="Variant.Filled" DropShadow=false>1</MudButton>
+        </MudStack>
+        <MudStack Row Spacing="1" Class="mt-1">
+            <MudButton OnClick="() => AppendCalc('7')" Variant="Variant.Filled" DropShadow=false>7</MudButton>
+            <MudButton OnClick="() => AppendCalc('8')" Variant="Variant.Filled" DropShadow=false>8</MudButton>
+            <MudButton OnClick="() => AppendCalc('9')" Variant="Variant.Filled" DropShadow=false>9</MudButton>
+            <MudButton OnClick="() => AppendCalc('*')" Variant="Variant.Filled" DropShadow=false>*</MudButton>
+        </MudStack>
+        <MudStack Row Spacing="1" Class="mt-1">
+            <MudButton OnClick="() => AppendCalc('4')" Variant="Variant.Filled" DropShadow=false>4</MudButton>
+            <MudButton OnClick="() => AppendCalc('5')" Variant="Variant.Filled" DropShadow=false>5</MudButton>
+            <MudButton OnClick="() => AppendCalc('6')" Variant="Variant.Filled" DropShadow=false>6</MudButton>
+            <MudButton OnClick="() => AppendCalc('-')" Variant="Variant.Filled" DropShadow=false>+</MudButton>
+        </MudStack>
+        <MudStack Row Spacing="1" Class="mt-1">
+            <MudButton OnClick="() => AppendCalc('1')" Variant="Variant.Filled" DropShadow=false>1</MudButton>
+            <MudButton OnClick="() => AppendCalc('2')" Variant="Variant.Filled" DropShadow=false>2</MudButton>
+            <MudButton OnClick="() => AppendCalc('3')" Variant="Variant.Filled" DropShadow=false>3</MudButton>
+            <MudButton OnClick="() => AppendCalc('+')" Variant="Variant.Filled" DropShadow=false>+</MudButton>
+        </MudStack>
+        <MudStack Row Spacing="1" Class="mt-1 mb-2">
+            <MudButton OnClick="() => AppendCalc('0')" Variant="Variant.Filled" DropShadow=false>0</MudButton>
+            <MudButton OnClick="() => AppendCalc('.')" Variant="Variant.Filled" DropShadow=false>.</MudButton>
+            <MudButton OnClick="() => ClearLast()" Variant="Variant.Filled" DropShadow=false><MudIcon Icon="@Icons.Material.Filled.Backspace" /></MudButton>
+            <MudButton OnClick="() => EvaluateCalc()" Variant="Variant.Filled" DropShadow=false>=</MudButton>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Filled">Cancel</MudButton>
+        <MudButton Color="@Color.Primary" Variant="Variant.Filled" OnClick="Submit" Disabled="@hasError">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
