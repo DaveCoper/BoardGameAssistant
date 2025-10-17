@@ -1,5 +1,72 @@
-﻿<h3>WingspanScore</h3>
+﻿@page "/wingspan/{GameId:int}"
+@using BoardGameAssistant.Client.Components
+@using BoardGameAssistant.ServiceContracts.Wingspan
+@using BoardGameAssistant.ServiceContracts.Wingspan.Dto
+
+<h3>Wingspan score</h3>
+
+@if (game is null)
+{
+    <LoadingComponent />
+}
+else
+{
+    <MudDataGrid Items="this.game.PlayerScores">
+        <Columns>
+            <PropertyColumn Property="@(x => x.PlayerName)" Title="Player" />
+            <PropertyColumn Property="@(x => x.PointsForBirds)" Title="Birds">
+                <EditTemplate>
+                    <NumberEditor @bind-Value="context.Item.PointsForBirds" />
+                </EditTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="@(x => x.TuckedCards)" Title="Food on cards" >
+                <EditTemplate>
+                    <NumberEditor @bind-Value="context.Item.TuckedCards" />
+                </EditTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="@(x => x.Eggs)" Title="Eggs">
+                <EditTemplate>
+                    <NumberEditor @bind-Value="context.Item.Eggs" />
+                </EditTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="@(x => x.PointsForBirds)" Title="Tucked cards">
+                <EditTemplate>
+                    <NumberEditor @bind-Value="context.Item.PointsForBirds" />
+                </EditTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="@(x => x.PointsForObjectives)" Title="Bonus cards">
+                <EditTemplate>
+                    <NumberEditor @bind-Value="context.Item.PointsForObjectives" />
+                </EditTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="@(x => x.EndOfRoundGoals)" Title="End of round goals">
+                <EditTemplate>
+                    <NumberEditor @bind-Value="context.Item.EndOfRoundGoals" />
+                </EditTemplate>
+            </PropertyColumn>
+            @*  <PropertyColumn Property="@(x => x.TotalScore)" Title="Total score" /> *@
+        </Columns>
+    </MudDataGrid>
+}
 
 @code {
 
+    [Inject]
+    public IWingspanGameService GameService { get; set; } = null!;
+
+    [Parameter]
+    public int GameId { get; set; }
+
+    private WingspanGame? game;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var tmpGame = await this.GameService.GetGameAsync(GameId);
+        if (tmpGame.PlayerScores is null)
+            tmpGame.PlayerScores = [];
+
+        game = tmpGame;
+
+        await base.OnInitializedAsync();
+    }
 }

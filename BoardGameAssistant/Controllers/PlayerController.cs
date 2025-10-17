@@ -1,4 +1,4 @@
-﻿using BoardGameAssistant.Client.Services;
+﻿using BoardGameAssistant.ServiceContracts.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGameAssistant.Controllers

@@ -8,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Localization;
 using MudBlazor.Services;
-using BoardGameAssistant.Client.Services;
 using BoardGameAssistant.Services;
+using BoardGameAssistant.Entities;
+using BoardGameAssistant.ServiceContracts.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 

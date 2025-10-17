@@ -1,3 +1,4 @@
+using BoardGameAssistant.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

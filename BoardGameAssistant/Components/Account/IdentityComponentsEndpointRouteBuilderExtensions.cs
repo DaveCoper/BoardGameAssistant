@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using BoardGameAssistant.Components.Account.Pages;
 using BoardGameAssistant.Components.Account.Pages.Manage;
-using BoardGameAssistant.Data;
+using BoardGameAssistant.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;

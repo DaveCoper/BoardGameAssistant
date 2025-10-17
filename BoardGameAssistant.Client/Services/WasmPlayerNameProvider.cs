@@ -2,7 +2,8 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using BoardGameAssistant.Client.Dto;
+using BoardGameAssistant.ServiceContracts.Common;
+using BoardGameAssistant.ServiceContracts.Common.Dto;
 
 namespace BoardGameAssistant.Client.Services
 {

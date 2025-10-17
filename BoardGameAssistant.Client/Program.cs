@@ -1,4 +1,5 @@
 using BoardGameAssistant.Client.Services;
+using BoardGameAssistant.ServiceContracts.Common;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 

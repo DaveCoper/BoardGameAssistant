@@ -1,9 +1,7 @@
-﻿using BoardGameAssistant.Client.Services;
+﻿using BoardGameAssistant.ServiceContracts.Scythe;
 using BoardGameAssistant.ServiceContracts.Scythe.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace BoardGameAssistant.Controllers;
 
@@ -18,12 +16,22 @@ public class ScytheController : ControllerBase
         this.scytheGameService = scytheGameService;
     }
 
-
     [HttpPost]
-    [ProducesResponseType(typeof(ScytheGame), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> CreateGame([FromBody] string? gameName)
+    [ProducesResponseType(typeof(ScytheGame), StatusCodes.Status200OK)]
+    public async Task<IActionResult> CreateGame([FromBody] NewScytheGame gameSettings)
     {
-        var game = await scytheGameService.CreateGameAsync(gameName);
+        var game = await scytheGameService.CreateGameAsync(gameSettings);
         return Ok(game);
     }
+
+    [HttpGet("{gameId:int}")]
+    [ProducesResponseType(typeof(ScytheGame), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetGame([FromRoute] int gameId)
+    {
+        var game = await scytheGameService.GetGameAsync(gameId);
+        return Ok(game);
+    }
+
+
 }

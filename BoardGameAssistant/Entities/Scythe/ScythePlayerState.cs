@@ -1,4 +1,6 @@
-﻿namespace BoardGameAssistant.Entities.Scythe
+﻿using BoardGameAssistant.ServiceContracts.Scythe;
+
+namespace BoardGameAssistant.Entities.Scythe
 {
     public class ScythePlayerState: IEntity
     {

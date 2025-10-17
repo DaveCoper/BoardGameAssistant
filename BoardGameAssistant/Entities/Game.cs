@@ -1,4 +1,4 @@
-﻿namespace BoardGameAssistant.Entities.Scythe
+﻿namespace BoardGameAssistant.Entities
 {
     public class Game : IEntity
     {

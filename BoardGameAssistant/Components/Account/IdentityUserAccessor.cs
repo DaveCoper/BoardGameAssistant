@@ -1,4 +1,4 @@
-using BoardGameAssistant.Data;
+using BoardGameAssistant.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace BoardGameAssistant.Components.Account

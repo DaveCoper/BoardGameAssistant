@@ -1,5 +1,5 @@
-﻿using BoardGameAssistant.Client.Dto;
-using BoardGameAssistant.Client.Services;
+﻿using BoardGameAssistant.ServiceContracts.Common;
+using BoardGameAssistant.ServiceContracts.Common.Dto;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 

@@ -1,13 +1,13 @@
 ﻿@page "/scythe/{GameId:int}"
 
 @using System.ComponentModel.DataAnnotations
-@using BoardGameAssistant.Client.Model.Scythe
+@using BoardGameAssistant.ServiceContracts.Scythe.Dto
 
 <PageTitle>Scythe Score Calculator</PageTitle>
 
 <MudText Typo="Typo.h4" GutterBottom="true">Scythe – Výpočet skóre</MudText>
 
-<MudTable id="scythe-score-table" Items="scores" Hover="true">
+@* <MudTable id="scythe-score-table" Items="scores" Hover="true">
     <HeaderContent>
         <MudTh>Hráč</MudTh>
         <MudTh>Mince</MudTh>
@@ -32,7 +32,7 @@
         </MudTd>
         <MudTd DataLabel="Celkové skóre">@CalculateScore(context)</MudTd>
     </RowTemplate>
-</MudTable>
+</MudTable> *@
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddPlayer">Přidat hráče</MudButton>
 
@@ -47,7 +47,7 @@
     {
         // Základní bodování Scythe (přizpůsobte podle pravidel a počtu hráčů)
         // Příklad: 1 mince = 1 bod, 1 hvězda = 3 body, 1 území = 2 body, 1 budova na řece = 1 bod
-        return player.Coins + player.Stars * 3 + player.Territories * 2 + player.BuildingsOnRiver * 1;
+        return player.Coins + player.Stars * 3 + player.TerritoriesControlled * 2 + player.StructuresBuilt * 1;
     }
 
     private Task AddPlayer()

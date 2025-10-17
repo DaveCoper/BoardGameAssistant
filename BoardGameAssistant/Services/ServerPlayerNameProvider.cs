@@ -1,6 +1,7 @@
-﻿using BoardGameAssistant.Client.Dto;
-using BoardGameAssistant.Client.Services;
-using BoardGameAssistant.Data;
+﻿using BoardGameAssistant.Data;
+using BoardGameAssistant.Entities;
+using BoardGameAssistant.ServiceContracts.Common;
+using BoardGameAssistant.ServiceContracts.Common.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoardGameAssistant.Services

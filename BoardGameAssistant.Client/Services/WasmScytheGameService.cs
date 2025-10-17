@@ -1,4 +1,5 @@
-﻿using BoardGameAssistant.ServiceContracts.Scythe.Dto;
+﻿using BoardGameAssistant.ServiceContracts.Scythe;
+using BoardGameAssistant.ServiceContracts.Scythe.Dto;
 using System.Net.Http.Json;
 
 namespace BoardGameAssistant.Client.Services
@@ -12,9 +13,9 @@ namespace BoardGameAssistant.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<ScytheGame> CreateGameAsync(string? gameName, DateTime? occurence)
+        public async Task<ScytheGame> CreateGameAsync(NewScytheGame newGameSettings)
         {
-            var response = await httpClient.PostAsJsonAsync("api/scythe/games", gameName);
+            var response = await httpClient.PostAsJsonAsync("api/scythe", newGameSettings);
             response.EnsureSuccessStatusCode();
 
             var createdGame = await response.Content.ReadFromJsonAsync<ScytheGame>();
@@ -24,6 +25,12 @@ namespace BoardGameAssistant.Client.Services
             }
 
             return createdGame;
+        }
+
+        public async Task<ScytheGame> GetGameAsync(int gameId, CancellationToken cancellationToken = default)
+        {
+            return await httpClient.GetFromJsonAsync<ScytheGame>($"api/scythe/{gameId}", cancellationToken)
+                ?? throw new InvalidOperationException("Failed to deserialize the game.");
         }
     }
 }

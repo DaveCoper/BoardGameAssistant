@@ -1,9 +1,9 @@
 ﻿using BoardGameAssistant.ServiceContracts.Scythe.Dto;
 
-namespace BoardGameAssistant.Client.Services
+namespace BoardGameAssistant.ServiceContracts.Scythe;
+
+public interface IScytheGameService
 {
-    public interface IScytheGameService
-    {
-        Task<ScytheGame> CreateGameAsync(string? gameName = null, DateTime? occurence = null);
-    }
+    Task<ScytheGame> CreateGameAsync(NewScytheGame newGameSettings);
+    Task<ScytheGame> GetGameAsync(int gameId, CancellationToken cancellationToken = default);
 }

@@ -1,6 +1,9 @@
-﻿using BoardGameAssistant.Client.Services;
-using BoardGameAssistant.Data;
+﻿using BoardGameAssistant.Data;
+using BoardGameAssistant.ServiceContracts.Scythe;
 using BoardGameAssistant.ServiceContracts.Scythe.Dto;
+using BoardGameAssistant.Services.Mappers;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace BoardGameAssistant.Services
 {
@@ -10,14 +13,14 @@ namespace BoardGameAssistant.Services
         private readonly ILogger<ServerScytheGameService> logger;
 
         public ServerScytheGameService(
-            ScytheDbContext scytheDbContext, 
+            ScytheDbContext scytheDbContext,
             ILogger<ServerScytheGameService> logger)
         {
             this.scytheDbContext = scytheDbContext;
             this.logger = logger;
         }
 
-        public async Task<ScytheGame> CreateGameAsync(string? gameName, DateTime? occurence)
+        public async Task<ScytheGame> CreateGameAsync(NewScytheGame gameSettings)
         {
             var currentUserId = await GetCurrentUserId();
 
@@ -26,45 +29,62 @@ namespace BoardGameAssistant.Services
                 ["UserId"] = currentUserId
             });
 
-            this.logger.LogTrace("User '{UserId}' is creating new Scythe game ", currentUserId);
+            this.logger.LogTrace("User '{UserId}' is creating new Scythe game", currentUserId);
 
-            if (!occurence.HasValue)
+            if (!gameSettings.Occurrence.HasValue)
             {
-                occurence = DateTime.Now;
-                this.logger.LogTrace("No occurence time provided using curret time");
+                gameSettings.Occurrence = DateTime.Now;
+                this.logger.LogTrace("No occurrence time provided using current time");
             }
 
-            if (string.IsNullOrWhiteSpace(gameName))
+            if (string.IsNullOrWhiteSpace(gameSettings.Name))
             {
-                gameName = $"Scythe {occurence.Value:dd:MM:YYYY}"; 
+                gameSettings.Name = $"Scythe {gameSettings.Occurrence.Value:dd:MM:YYYY}";
                 this.logger.LogTrace("No game name provided using default");
             }
 
             var proxy = scytheDbContext.Games.Add(new Entities.Scythe.ScytheGame
             {
-                Name = gameName,
-                PlayedAt = occurence.Value,
+                Name = gameSettings.Name,
+                PlayedAt = gameSettings.Occurrence.Value,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = currentUserId,
-                UpdatedBy = currentUserId
+                UpdatedBy = currentUserId,
+                HasInvadersFromAfarExpansion = gameSettings.HasInvadersFromAfarExpansion,
+                HasWindGambitExpansion = gameSettings.HasWindGambitExpansion,
+                HasRiseOfFenrisExpansion = gameSettings.HasRiseOfFenrisExpansion,
+                HasModularBoard = gameSettings.HasModularBoard,
             });
 
             await scytheDbContext.SaveChangesAsync();
 
-            this.logger.LogInformation("User '{UserId}' created new Scythe game {GameId}", currentUserId, proxy.Entity.Id);
+            this.logger.LogInformation("User '{UserId}' created new Scythe game '{GameId}'", currentUserId, proxy.Entity.Id);
 
-            return new ScytheGame
-            {
-                Id = proxy.Entity.Id,
-                Name = proxy.Entity.Name,
-                PlayedAt = proxy.Entity.PlayedAt
-            };
+            return proxy.Entity.ToContract();
         }
 
-        private async Task<Guid?> GetCurrentUserId()
+        public async Task<ScytheGame> GetGameAsync(int gameId, CancellationToken cancellationToken = default)
         {
-            return null; // TODO: Implement user identification logic
+            var currentUserId = await GetCurrentUserId();
+            this.logger.LogTrace("User '{UserId}' is looking for Scythe game '{GameId}'", currentUserId, gameId);
+
+            var entity = await scytheDbContext.Games
+                .SelectContract()
+                .FirstOrDefaultAsync(x => x.Id == gameId);
+
+            if (entity is null)
+            {
+                this.logger.LogWarning("User '{UserId}' tried to access non-existing Scythe game {GameId}", currentUserId, gameId);
+                throw new KeyNotFoundException($"Game with id {gameId} not found");
+            }
+
+            return entity;
+        }
+
+        private Task<Guid?> GetCurrentUserId()
+        {
+            return Task.FromResult<Guid?>(null); // TODO: Implement user identification logic
         }
     }
 }
