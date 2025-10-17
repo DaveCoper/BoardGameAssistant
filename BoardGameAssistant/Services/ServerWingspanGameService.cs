@@ -1,4 +1,4 @@
-﻿using BoardGameAssistant.Data;
+﻿using BoardGameAssistant.Data.Wingspan;
 using BoardGameAssistant.ServiceContracts.Wingspan;
 using BoardGameAssistant.ServiceContracts.Wingspan.Dto;
 using BoardGameAssistant.Services.Mappers;

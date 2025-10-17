@@ -1,4 +1,4 @@
-﻿using BoardGameAssistant.Data;
+﻿using BoardGameAssistant.Data.Scythe;
 using BoardGameAssistant.ServiceContracts.Scythe;
 using BoardGameAssistant.ServiceContracts.Scythe.Dto;
 using BoardGameAssistant.Services.Mappers;

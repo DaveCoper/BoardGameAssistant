@@ -1,9 +1,10 @@
 ﻿@page "/wingspan/{GameId:int}"
 @using BoardGameAssistant.Client.Components
+@using BoardGameAssistant.Client.Model
 @using BoardGameAssistant.ServiceContracts.Wingspan
 @using BoardGameAssistant.ServiceContracts.Wingspan.Dto
 
-<h3>Wingspan score</h3>
+<h1>Scoreboard</h1>
 
 @if (game is null)
 {
@@ -11,15 +12,16 @@
 }
 else
 {
-    <MudDataGrid Items="this.game.PlayerScores">
+    <MudDataGrid Items="this.game.PlayerScores" ReadOnly=false EditMode="DataGridEditMode.Cell" Elevation="0">
         <Columns>
-            <PropertyColumn Property="@(x => x.PlayerName)" Title="Player" />
+            <PropertyColumn Property="@(x => x.PlayerName)" Title="Player">
+            </PropertyColumn>
             <PropertyColumn Property="@(x => x.PointsForBirds)" Title="Birds">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.PointsForBirds" />
                 </EditTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="@(x => x.TuckedCards)" Title="Food on cards" >
+            <PropertyColumn Property="@(x => x.TuckedCards)" Title="Food on cards">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.TuckedCards" />
                 </EditTemplate>
@@ -44,7 +46,38 @@ else
                     <NumberEditor @bind-Value="context.Item.EndOfRoundGoals" />
                 </EditTemplate>
             </PropertyColumn>
-            @*  <PropertyColumn Property="@(x => x.TotalScore)" Title="Total score" /> *@
+            @if (game.HasOceaniaExpansion)
+            {
+                <PropertyColumn Property="@(x => x.NectarOnRow1)" Title="Nectar on ???">
+                    <EditTemplate>
+                        <NumberEditor @bind-Value="context.Item.NectarOnRow1" />
+                    </EditTemplate>
+                </PropertyColumn>
+
+                <PropertyColumn Property="@(x => x.NectarOnRow2)" Title="Nectar on ???">
+                    <EditTemplate>
+                        <NumberEditor @bind-Value="context.Item.NectarOnRow2" />
+                    </EditTemplate>
+                </PropertyColumn>
+
+                <PropertyColumn Property="@(x => x.NectarOnRow3)" Title="Nectar on ???">
+                    <EditTemplate>
+                        <NumberEditor @bind-Value="context.Item.NectarOnRow3" />
+                    </EditTemplate>
+                </PropertyColumn>
+            }
+
+            <TemplateColumn Title="Total score" Editable=false>
+                <CellTemplate>
+                    <MudText>@(CalculateScore(context.Item))</MudText>
+                </CellTemplate>
+            </TemplateColumn>
+
+            <TemplateColumn Editable=false>
+                <CellTemplate>
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+                </CellTemplate>
+            </TemplateColumn>
         </Columns>
     </MudDataGrid>
 }
@@ -54,6 +87,9 @@ else
     [Inject]
     public IWingspanGameService GameService { get; set; } = null!;
 
+    [Inject]
+    public Services.TitleMenuService TitleMenuService { get; set; } = null!;
+
     [Parameter]
     public int GameId { get; set; }
 
@@ -61,6 +97,17 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var menuOption = new MenuOption
+        {
+            Icon = Icons.Material.Filled.Add,
+            Title = "Add player",
+            Color = Color.Inherit,
+            Command = this.AddPlayer
+        };
+
+        TitleMenuService.Options = [menuOption];
+
+
         var tmpGame = await this.GameService.GetGameAsync(GameId);
         if (tmpGame.PlayerScores is null)
             tmpGame.PlayerScores = [];
@@ -68,5 +115,28 @@ else
         game = tmpGame;
 
         await base.OnInitializedAsync();
+    }
+
+    private void AddPlayer()
+    {
+        if (game is not null)
+        {
+            game.PlayerScores.Add(new WingspanPlayerScore
+            {
+                PlayerName = $"Player {game.PlayerScores.Count + 1}"
+            });
+
+            this.StateHasChanged();
+        }
+    }
+
+    private int CalculateScore(WingspanPlayerScore score)
+    {
+        return
+            score.Eggs +
+            score.TuckedCards +
+            score.PointsForObjectives +
+            score.PointsForBirds + 
+            score.EndOfRoundGoals;
     }
 }

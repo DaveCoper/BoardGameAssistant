@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using BoardGameAssistant.Client.Services
+@inherits LayoutComponentBase
+
+@inject TitleMenuService TitleMenuService
 
 <MudThemeProvider />
 <MudPopoverProvider />
@@ -9,7 +12,10 @@
         <MudStaticNavDrawerToggle DrawerId="nav-drawer" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
         <MudText Typo="Typo.h5" Class="ml-3">Application</MudText>
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        @foreach (var option in TitleMenuService.Options)
+        {
+            <MudIconButton Icon="@option.Icon" Color="@option.Color" Edge="Edge.End" title="@option.Title" OnClick="() => option.Command()" />
+        }
     </MudAppBar>
     <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />

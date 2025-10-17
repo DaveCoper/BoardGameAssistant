@@ -22,8 +22,7 @@
             </MudItem>
 
             <MudItem xs="12" sm="6">
-                <MudDatePicker T="DateTime?"
-                               For="@(() => Model.Occurrence)"
+                <MudDatePicker For="@(() => Model.Occurrence)"
                                Label="Game date"
                                @bind-Date="Model.Occurrence" />
             </MudItem>
@@ -68,7 +67,7 @@
     {
         Model = new NewScytheGame
         {
-            Name = $"Scythe {DateTime.Now:dd:MM:yyyy}",
+            Name = $"Scythe {DateTime.Now:dd/MM/yyyy}",
             Occurrence = DateTime.Now,
             HasInvadersFromAfarExpansion = false,
             HasRiseOfFenrisExpansion = false,

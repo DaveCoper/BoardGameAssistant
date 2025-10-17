@@ -3,7 +3,7 @@ using BoardGameAssistant.Entities.Scythe;
 using BoardGameAssistant.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoardGameAssistant.Data
+namespace BoardGameAssistant.Data.Scythe
 {
     public class ScytheDbContext : DbContext
     {
@@ -22,6 +22,7 @@ namespace BoardGameAssistant.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("scythe");
             modelBuilder.Entity<ScytheGame>(entity =>
             {
                 entity.HasKey(e => e.Id);                

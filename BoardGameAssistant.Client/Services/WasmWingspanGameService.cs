@@ -15,7 +15,7 @@ namespace BoardGameAssistant.Client.Services
 
         public async Task<WingspanGame> CreateGameAsync(NewWingspanGame wingspanGameSettings)
         {
-            var response = await httpClient.PostAsJsonAsync("api/wingspan", wingspanGameSettings);
+            var response = await httpClient.PostAsJsonAsync("api/Wingspan", wingspanGameSettings);
             response.EnsureSuccessStatusCode();
 
             var createdGame = await response.Content.ReadFromJsonAsync<WingspanGame>();
@@ -29,7 +29,7 @@ namespace BoardGameAssistant.Client.Services
 
         public async Task<WingspanGame> GetGameAsync(int gameId, CancellationToken cancellationToken = default)
         {
-            var response = await httpClient.GetFromJsonAsync<WingspanGame>($"api/wingspan/{gameId}", cancellationToken);
+            var response = await httpClient.GetFromJsonAsync<WingspanGame>($"api/Wingspan/{gameId}", cancellationToken);
             return response ?? throw new InvalidOperationException("Failed to deserialize the game.");
         }
     }

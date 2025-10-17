@@ -1,4 +1,4 @@
-﻿using BoardGameAssistant.Data;
+﻿using BoardGameAssistant.Data.App;
 using BoardGameAssistant.Entities;
 using BoardGameAssistant.ServiceContracts.Common;
 using BoardGameAssistant.ServiceContracts.Common.Dto;

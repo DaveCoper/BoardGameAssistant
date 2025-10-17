@@ -1,5 +1,89 @@
-﻿<h3>New Wingspan Game</h3>
+﻿@page "/wingspan/new"
+
+@using BoardGameAssistant.Client.Model
+@using BoardGameAssistant.Client.Services
+@using BoardGameAssistant.ServiceContracts.Wingspan
+@using BoardGameAssistant.ServiceContracts.Wingspan.Dto
+@using MudBlazor
+
+@inject IWingspanGameService GameService
+@inject NavigationManager Navigation
+@inject TitleMenuService TitleMenuService
+@inject ISnackbar Snackbar
+
+<PageTitle>New Wingspan game</PageTitle>
+
+<MudPaper Class="pa-4 mt-4" Elevation="1">
+    <EditForm Model="@Model" OnValidSubmit="SaveAsync">
+        <DataAnnotationsValidator />
+
+        <MudGrid>
+            <MudItem xs="12" sm="8">
+                <MudText Typo="Typo.h6">Create new Wingspan game</MudText>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid Class="mt-4" Spacing="3">
+            <MudItem xs="12" sm="6">
+                <MudTextField For="@(() => Model.Name)"
+                              Label="Name"
+                              @bind-Value="Model.Name" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudDatePicker For="@(() => Model.Occurrence)"
+                               Label="Game date"
+                               @bind-Date="Model.Occurrence" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudSwitch For="@(() => Model.HasOceaniaExpansion)"
+                           Label="Oceania expansion"
+                           Color="Color.Primary"
+                           @bind-Value="Model.HasOceaniaExpansion" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">
+                    Save
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </EditForm>
+</MudPaper>
 
 @code {
 
+    private NewWingspanGame Model { get; set; } = new NewWingspanGame
+    {
+        HasOceaniaExpansion = true,
+        Occurrence = DateTime.Now,
+        Name = $"Wingspan {DateTime.Now:dd/MM/yyyy}"
+    };
+
+    protected override void OnInitialized()
+    {
+        TitleMenuService.Options.Clear();
+        base.OnInitialized();
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            var created = await this.GameService.CreateGameAsync(Model);
+            if (created is null)
+            {
+                Snackbar.Add("Failed to create game.", Severity.Error);
+                return;
+            }
+
+            // Assuming created has an Id property
+            Navigation.NavigateTo($"/wingspan/{created.Id}");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error creating game: {ex.Message}", Severity.Error);
+        }
+    }
 }

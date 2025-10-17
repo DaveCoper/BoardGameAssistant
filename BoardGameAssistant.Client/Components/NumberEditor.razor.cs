@@ -30,10 +30,10 @@ namespace BoardGameAssistant.Client.Components
         public Variant EditorVariant { get; set; } = Variant.Outlined;
 
         [Parameter]
-        public Variant IconButtonVariant { get; set; } = Variant.Filled;
+        public Variant IconButtonVariant { get; set; } = Variant.Text;
 
         [Parameter]
-        public Color IconButtonColor { get; set; } = Color.Primary;
+        public Color IconButtonColor { get; set; } = Color.Default;
 
         [Inject]
         public IDialogService DialogService { get; set; } = null!;
