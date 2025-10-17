@@ -3,8 +3,12 @@
 @using BoardGameAssistant.Client.Model
 @using BoardGameAssistant.ServiceContracts.Wingspan
 @using BoardGameAssistant.ServiceContracts.Wingspan.Dto
+@using Microsoft.Extensions.Localization
 
-<h1>Scoreboard</h1>
+@inject IStringLocalizer<BoardGameAssistant.Client.Pages.Wingspan.WingspanScore> Localizer
+
+<PageTitle>@Localizer["ScreenTitle"]</PageTitle>
+<h1>@Localizer["ScreenHeader"]</h1>
 
 @if (game is null)
 {
@@ -14,60 +18,60 @@ else
 {
     <MudDataGrid Items="this.game.PlayerScores" ReadOnly=false EditMode="DataGridEditMode.Cell" Elevation="0">
         <Columns>
-            <PropertyColumn Property="@(x => x.PlayerName)" Title="Player">
+            <PropertyColumn Property="@(x => x.PlayerName)" Title="@Localizer["GridTitle_PlayerName"]">
             </PropertyColumn>
-            <PropertyColumn Property="@(x => x.PointsForBirds)" Title="Birds">
+            <PropertyColumn Property="@(x => x.PointsForBirds)" Title="@Localizer["GridTitle_Birds"]">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.PointsForBirds" />
                 </EditTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="@(x => x.TuckedCards)" Title="Food on cards">
+            <PropertyColumn Property="@(x => x.TuckedCards)" Title="@Localizer["GridTitle_Food"]">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.TuckedCards" />
                 </EditTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="@(x => x.Eggs)" Title="Eggs">
+            <PropertyColumn Property="@(x => x.Eggs)" Title="@Localizer["GridTitle_Eggs"]">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.Eggs" />
                 </EditTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="@(x => x.PointsForBirds)" Title="Tucked cards">
+            <PropertyColumn Property="@(x => x.PointsForBirds)" Title="@Localizer["GridTitle_TuckedCards"]">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.PointsForBirds" />
                 </EditTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="@(x => x.PointsForObjectives)" Title="Bonus cards">
+            <PropertyColumn Property="@(x => x.PointsForObjectives)" Title="@Localizer["GridTitle_BonusCards"]">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.PointsForObjectives" />
                 </EditTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="@(x => x.EndOfRoundGoals)" Title="End of round goals">
+            <PropertyColumn Property="@(x => x.EndOfRoundGoals)" Title="@Localizer["GridTitle_EndOfRoundGoals"]">
                 <EditTemplate>
                     <NumberEditor @bind-Value="context.Item.EndOfRoundGoals" />
                 </EditTemplate>
             </PropertyColumn>
             @if (game.HasOceaniaExpansion)
             {
-                <PropertyColumn Property="@(x => x.NectarOnRow1)" Title="Nectar on ???">
+                <PropertyColumn Property="@(x => x.NectarOnRow1)" Title="@Localizer["GridTitle_NectarOnRow1"]">
                     <EditTemplate>
                         <NumberEditor @bind-Value="context.Item.NectarOnRow1" />
                     </EditTemplate>
                 </PropertyColumn>
 
-                <PropertyColumn Property="@(x => x.NectarOnRow2)" Title="Nectar on ???">
+                <PropertyColumn Property="@(x => x.NectarOnRow2)" Title="@Localizer["GridTitle_NectarOnRow2"]">
                     <EditTemplate>
                         <NumberEditor @bind-Value="context.Item.NectarOnRow2" />
                     </EditTemplate>
                 </PropertyColumn>
 
-                <PropertyColumn Property="@(x => x.NectarOnRow3)" Title="Nectar on ???">
+                <PropertyColumn Property="@(x => x.NectarOnRow3)" Title="@Localizer["GridTitle_NectarOnRow3"]">
                     <EditTemplate>
                         <NumberEditor @bind-Value="context.Item.NectarOnRow3" />
                     </EditTemplate>
                 </PropertyColumn>
             }
 
-            <TemplateColumn Title="Total score" Editable=false>
+            <TemplateColumn Title="@Localizer["GridTitle_TotalScore"]" Editable=false>
                 <CellTemplate>
                     <MudText>@(CalculateScore(context.Item))</MudText>
                 </CellTemplate>
@@ -100,7 +104,7 @@ else
         var menuOption = new MenuOption
         {
             Icon = Icons.Material.Filled.Add,
-            Title = "Add player",
+            Title = Localizer["AddPlayer"],
             Color = Color.Inherit,
             Command = this.AddPlayer
         };

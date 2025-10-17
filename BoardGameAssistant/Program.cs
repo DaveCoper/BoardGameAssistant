@@ -91,7 +91,6 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// (Volitelné) Použijte lokalizaci v pipeline
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
 
