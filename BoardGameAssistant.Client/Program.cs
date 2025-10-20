@@ -18,6 +18,7 @@ builder.Services.AddAuthenticationStateDeserialization();
 builder.Services.AddScoped<IPlayerNameProvider, WasmPlayerNameProvider>();
 builder.Services.AddScoped<IWingspanGameService, WasmWingspanGameService>();
 builder.Services.AddScoped<IScytheGameService, WasmScytheGameService>();
+builder.Services.AddScoped<IGameProvider, WasmGameProvider>();
 builder.Services.AddSingleton<TitleMenuService, TitleMenuService>();
 
 await builder.Build().RunAsync();

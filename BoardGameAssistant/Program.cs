@@ -33,6 +33,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
+builder.Services.AddMemoryCache();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -86,6 +87,10 @@ builder.Services.AddScoped<IWingspanGameService, ServerWingspanGameService>();
 builder.Services.AddScoped<IScytheGameService, ServerScytheGameService>();
 builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddScoped<TitleMenuService, TitleMenuService>();
+builder.Services.AddScoped<IGameProvider, BggGameProvider>();
+
+builder.Services.Configure<BggGameProviderOptions>(
+    builder.Configuration.GetSection(BggGameProviderOptions.SectionKey));
 
 builder.Services.AddControllers();
 
