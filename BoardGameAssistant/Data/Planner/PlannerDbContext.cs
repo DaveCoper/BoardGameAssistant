@@ -11,6 +11,7 @@ namespace BoardGameAssistant.Data.Planner
         }
 
         public DbSet<GameMeet> Meetings { get; set; }
+        public DbSet<MeetSequence> Sequences { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
